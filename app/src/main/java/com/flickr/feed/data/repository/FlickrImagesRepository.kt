@@ -7,7 +7,7 @@ import javax.inject.Inject
 /**
  * Created by andrew on 27/10/2017.
  */
-class FlickrImagesRepository
+open class FlickrImagesRepository
 @Inject constructor(private val localDataSource: FlickrImagesLocalDataSource,
                     private val remoteDataSource: FlickrImagesRemoteDataSource) {
 

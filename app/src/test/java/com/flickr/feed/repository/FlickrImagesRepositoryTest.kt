@@ -1,4 +1,4 @@
-package com.flickr.feed
+package com.flickr.feed.repository
 
 import com.flickr.feed.data.db.FlickrImagesDao
 import com.flickr.feed.data.model.FlickrImage
@@ -24,7 +24,7 @@ import javax.inject.Inject
 /**
  * Created by andrew on 26/10/2017.
  */
-class GridActivityPresenterTest {
+class FlickrImagesRepositoryTest {
 
     private val LOCAL_IMAGES = arrayListOf(FlickrImage(), FlickrImage())
 

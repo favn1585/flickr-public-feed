@@ -1,9 +1,8 @@
-package com.flickr.feed
+package com.flickr.feed.network
 
 import com.flickr.feed.data.api.FlickrApi
 import com.flickr.feed.data.model.FlickrImages
 import com.flickr.feed.di.DaggerTestNetworkComponent
-import com.flickr.feed.network.NetworkModule
 import com.flickr.feed.utils.ServerTestHelper
 import com.flickr.feed.utils.ServerTestHelper.Companion.testDate
 import com.flickr.feed.utils.ServerTestHelper.Companion.testDescription

@@ -7,7 +7,10 @@ android {
     buildToolsVersion "26.0.1"
 
     configurations.all {
-        resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
+        resolutionStrategy {
+            force 'com.google.code.findbugs:jsr305:1.3.9'
+            force "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+        }
     }
 
     defaultConfig {
@@ -84,6 +87,10 @@ dependencies {
             "com.google.dagger:dagger:$dagger2_version",
             "org.json:json:20171018"
     ]
+
+    testCompile("com.nhaarman:mockito-kotlin:1.5.0") {
+        exclude module: 'mockito-core'
+    }
 
     testCompile testCompileDependencies
     androidTestCompile testCompileDependencies
