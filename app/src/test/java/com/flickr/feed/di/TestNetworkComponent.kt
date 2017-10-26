@@ -1,6 +1,7 @@
 package com.flickr.feed.di
 
 import com.flickr.feed.ApiTest
+import com.flickr.feed.GridActivityPresenterTest
 import com.flickr.feed.network.NetworkModule
 import dagger.Component
 import javax.inject.Singleton
@@ -12,4 +13,5 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(NetworkModule::class))
 interface TestNetworkComponent {
     fun inject(apiTest: ApiTest)
+    fun inject(gridActivityPresenterTest: GridActivityPresenterTest)
 }

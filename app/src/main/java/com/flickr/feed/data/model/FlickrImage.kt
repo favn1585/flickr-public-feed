@@ -27,13 +27,13 @@ import com.flickr.feed.data.db.DBConfig
 @Entity(tableName = DBConfig.TABLE_FLICKR_IMAGES)
 data class FlickrImage(
         @PrimaryKey(autoGenerate = true)
-        var id: Int,
-        var title: String,
-        var date_taken: String,
-        var description: String,
-        var published: String,
-        var link: String,
-        var media_url: String?) {
+        var id: Int = 0,
+        var title: String = "",
+        var date_taken: String = "",
+        var description: String = "",
+        var published: String = "",
+        var link: String = "",
+        var media_url: String = "") {
 
     @Ignore
     var media: FlickrImageMedia = FlickrImageMedia()

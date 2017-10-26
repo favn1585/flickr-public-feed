@@ -10,7 +10,7 @@ import javax.inject.Inject
  *
  * Local images repository implementation
  */
-class FlickrImagesLocalDataSource
+open class FlickrImagesLocalDataSource
 @Inject constructor(val flickrImagesDao: FlickrImagesDao) : FlickrImagesDataSource {
 
     /**

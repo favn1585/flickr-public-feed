@@ -1,9 +1,9 @@
 package com.flickr.feed
 
-import com.flickr.feed.di.DaggerTestNetworkComponent
-import com.flickr.feed.network.NetworkModule
 import com.flickr.feed.data.api.FlickrApi
 import com.flickr.feed.data.model.FlickrImages
+import com.flickr.feed.di.DaggerTestNetworkComponent
+import com.flickr.feed.network.NetworkModule
 import com.flickr.feed.utils.getHost
 import io.reactivex.observers.TestObserver
 import okhttp3.mockwebserver.Dispatcher
@@ -47,7 +47,6 @@ class ApiTest {
 
     @Inject
     lateinit var retrofit: Retrofit
-
 
     @Before
     fun setUp() {

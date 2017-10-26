@@ -5,7 +5,7 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 /**
- * Created by andrew on 25/10/2017.
+ * Created by andrew on 27/10/2017.
  */
 class FlickrImagesRepository
 @Inject constructor(private val localDataSource: FlickrImagesLocalDataSource,

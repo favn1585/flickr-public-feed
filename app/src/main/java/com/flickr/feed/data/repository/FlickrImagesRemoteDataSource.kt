@@ -9,7 +9,7 @@ import javax.inject.Inject
 /**
  * Created by andrew on 25/10/2017.
  */
-class FlickrImagesRemoteDataSource @Inject constructor(val retrofit: Retrofit) : FlickrImagesDataSource {
+open class FlickrImagesRemoteDataSource @Inject constructor(val retrofit: Retrofit) : FlickrImagesDataSource {
 
     override fun getImages(): Single<List<FlickrImage>> =
             retrofit.create(FlickrApi::class.java).getImages().map { images -> images.items }
