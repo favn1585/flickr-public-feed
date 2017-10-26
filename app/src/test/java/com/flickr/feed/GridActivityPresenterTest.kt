@@ -7,9 +7,11 @@ import com.flickr.feed.data.repository.FlickrImagesRemoteDataSource
 import com.flickr.feed.data.repository.FlickrImagesRepository
 import com.flickr.feed.di.DaggerTestNetworkComponent
 import com.flickr.feed.network.NetworkModule
+import com.flickr.feed.utils.ServerTestHelper
 import com.flickr.feed.utils.getHost
 import io.reactivex.Single
 import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -25,8 +27,6 @@ import javax.inject.Inject
 class GridActivityPresenterTest {
 
     private val LOCAL_IMAGES = arrayListOf(FlickrImage(), FlickrImage())
-    private val REMOTE_IMAGES = arrayListOf(FlickrImage(), FlickrImage(), FlickrImage())
-
 
     lateinit var localDataSource: FlickrImagesLocalDataSource
     lateinit var remoteDataSource: FlickrImagesRemoteDataSource
@@ -38,10 +38,14 @@ class GridActivityPresenterTest {
     @Inject
     lateinit var retrofit: Retrofit
 
+    val server = MockWebServer()
+
     @Before
     fun setup() {
+        server.start()
+
         val component = DaggerTestNetworkComponent.builder()
-                .networkModule(NetworkModule(MockWebServer().getHost())).build()
+                .networkModule(NetworkModule(server.getHost())).build()
         component.inject(this)
 
         MockitoAnnotations.initMocks(this)
@@ -54,34 +58,32 @@ class GridActivityPresenterTest {
         doNothing().`when`(dao).dropImages()
     }
 
+    @After
+    fun dispose() {
+        server.shutdown()
+    }
+
     @Test
     fun repository_shouldReturnLocalImages() {
         `when`(dao.getImages()).thenReturn(Single.just(LOCAL_IMAGES))
-        //`when`(localDataSource.getImages()).thenReturn(Single.just(arrayListOf()))
 
         val testObserver = repository.getImages().test()
-        //Mockito.verify(localDataSource).getImages()
 
         testObserver.awaitTerminalEvent()
         testObserver.assertNoErrors()
         testObserver.assertValue { images -> images.size == LOCAL_IMAGES.size }
     }
 
-   /* @Test
+    @Test
     fun repository_shouldReturnRemoteImages() {
-        `when`(localDataSource.getImages()).thenReturn(Single.just(arrayListOf()))
-        `when`(localDataSource.deleteAllImages()).then { doNothing() }
+        server.setDispatcher(ServerTestHelper.imagesDispatcher)
 
-        Mockito.doNothing().`when`(localDataSource).deleteAllImages()
-
-        `when`(remoteDataSource.getImages()).thenReturn(Single.just(REMOTE_IMAGES))
+        `when`(dao.getImages()).thenReturn(Single.just(arrayListOf()))
 
         val testObserver = repository.getImages().test()
-        Mockito.verify(localDataSource).getImages()
-        Mockito.verify(remoteDataSource).getImages()
 
         testObserver.awaitTerminalEvent()
         testObserver.assertNoErrors()
-        testObserver.assertValue { images -> images.size == REMOTE_IMAGES.size }
-    }*/
+        testObserver.assertValue { images -> images.size == ServerTestHelper.testImagesSize }
+    }
 }
