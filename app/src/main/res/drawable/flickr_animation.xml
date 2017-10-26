@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list android:id="@+id/selected"
+    android:oneshot="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/flickr_1" android:duration="50" />
+    <item android:drawable="@drawable/flickr_2" android:duration="50" />
+    <item android:drawable="@drawable/flickr_3" android:duration="50" />
+    <item android:drawable="@drawable/flickr_4" android:duration="50" />
+    <item android:drawable="@drawable/flickr_5" android:duration="50" />
+    <item android:drawable="@drawable/flickr_6" android:duration="50" />
+    <item android:drawable="@drawable/flickr_7" android:duration="50" />
+    <item android:drawable="@drawable/flickr_8" android:duration="50" />
+    <item android:drawable="@drawable/flickr_9" android:duration="50" />
+    <item android:drawable="@drawable/flickr_10" android:duration="50" />
+    <item android:drawable="@drawable/flickr_11" android:duration="50" />
+    <item android:drawable="@drawable/flickr_12" android:duration="50" />
+    <item android:drawable="@drawable/flickr_13" android:duration="50" />
+    <item android:drawable="@drawable/flickr_14" android:duration="50" />
+    <item android:drawable="@drawable/flickr_15" android:duration="50" />
+    <item android:drawable="@drawable/flickr_16" android:duration="50" />
+    <item android:drawable="@drawable/flickr_17" android:duration="50" />
+    <item android:drawable="@drawable/flickr_18" android:duration="50" />
+    <item android:drawable="@drawable/flickr_19" android:duration="50" />
+    <item android:drawable="@drawable/flickr_20" android:duration="50" />
+    <item android:drawable="@drawable/flickr_21" android:duration="50" />
+    <item android:drawable="@drawable/flickr_22" android:duration="50" />
+    <item android:drawable="@drawable/flickr_23" android:duration="50" />
+    <item android:drawable="@drawable/flickr_24" android:duration="50" />
+    <item android:drawable="@drawable/flickr_25" android:duration="50" />
+    <item android:drawable="@drawable/flickr_26" android:duration="50" />
+    <item android:drawable="@drawable/flickr_27" android:duration="50" />
+    <item android:drawable="@drawable/flickr_28" android:duration="50" />
+    <item android:drawable="@drawable/flickr_29" android:duration="50" />
+    <item android:drawable="@drawable/flickr_30" android:duration="50" />
+
+</animation-list>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Flickr Public Feed</string>
+
+    <string name="common_error">We\'re sorry, something went wrong</string>
+
+    <string name="ftue_title">Click</string>
+    <string name="ftue_text">To see more</string>
+</resources>
