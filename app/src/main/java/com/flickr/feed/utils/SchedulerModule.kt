@@ -19,6 +19,10 @@ class SchedulerModule {
     internal fun provideIoScheduler(): Scheduler = Schedulers.io()
 
     @Provides
+    @RunOn(SchedulerContext.COMPUTATION)
+    internal fun provideComputationScheduler(): Scheduler = Schedulers.computation()
+
+    @Provides
     @RunOn(SchedulerContext.UI)
     internal fun provideUiScheduler(): Scheduler = AndroidSchedulers.mainThread()
 }
