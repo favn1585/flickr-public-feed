@@ -23,6 +23,7 @@ import com.flickr.feed.application.App
 import com.flickr.feed.application.session.SharedPrefs
 import com.flickr.feed.application.session.SharedPrefsModule
 import com.flickr.feed.data.model.FlickrImage
+import com.flickr.feed.network.imageLoading.GlideApp
 import com.flickr.feed.ui.adapter.PhotoGridAdapter
 import com.wooplr.spotlight.SpotlightView
 import javax.inject.Inject
@@ -67,30 +68,7 @@ class PhotoGridActivity : AppCompatActivity(), PhotoGridContract.View {
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this)
 
-        (ivProgress.background as AnimationDrawable).start()
-        swipeRefresh.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorAccent))
-        swipeRefresh.setOnRefreshListener { presenter.reloadImages() }
-
-        rvPhotos.layoutManager = GridLayoutManager(this, 2)
-        rvPhotos.adapter = adapter
-        rvPhotos.itemAnimator = DefaultItemAnimator()
-        rvPhotos.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            val padding = applicationContext.resources.getDimensionPixelSize(R.dimen.itm_padding)
-
-            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-                val position = parent.getChildLayoutPosition(view)
-
-                outRect.left = if (position % 2 == 0) padding else padding / 2
-                outRect.right = if (position % 2 == 1) padding else padding / 2
-                outRect.bottom = padding
-
-                if (position == 0 || position == 1) {
-                    outRect.top = padding
-                } else {
-                    outRect.top = 0
-                }
-            }
-        })
+        setupWidgets()
 
         presenter.getImages()
     }
@@ -109,35 +87,7 @@ class PhotoGridActivity : AppCompatActivity(), PhotoGridContract.View {
         if (!images.isEmpty() && !sharedPrefs.isGridTipShowed()) {
             rvPhotos.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
-                    val layoutManager = rvPhotos.layoutManager as GridLayoutManager
-                    val firstItemPosition = layoutManager.findFirstVisibleItemPosition()
-                    val view = layoutManager.findViewByPosition(firstItemPosition)
-
-                    val animTime =
-                            resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
-                    val colorAccent =
-                            ContextCompat.getColor(applicationContext, R.color.colorAccent)
-
-                    SpotlightView.Builder(this@PhotoGridActivity)
-                            .introAnimationDuration(animTime)
-                            .enableRevealAnimation(true)
-                            .performClick(true)
-                            .fadeinTextDuration(animTime)
-                            .headingTvColor(colorAccent)
-                            .headingTvSize(32)
-                            .headingTvText(getString(R.string.ftue_title))
-                            .subHeadingTvColor(Color.WHITE)
-                            .subHeadingTvSize(16)
-                            .subHeadingTvText(getString(R.string.ftue_text))
-                            .maskColor(ContextCompat.getColor(applicationContext, R.color.bg_ftue))
-                            .target(view)
-                            .lineAnimDuration(animTime)
-                            .lineAndArcColor(colorAccent)
-                            .dismissOnTouch(true)
-                            .dismissOnBackPress(true)
-                            .enableDismissAfterShown(true)
-                            .show()
-
+                    showFTUE()
                     rvPhotos.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
             })
@@ -147,5 +97,73 @@ class PhotoGridActivity : AppCompatActivity(), PhotoGridContract.View {
 
     override fun displayError() {
         Snackbar.make(rootView, getString(R.string.common_error), Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun setupWidgets() {
+        (ivProgress.background as AnimationDrawable).start()
+        swipeRefresh.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorAccent))
+        swipeRefresh.setOnRefreshListener { presenter.reloadImages() }
+
+        rvPhotos.layoutManager = GridLayoutManager(this, 2)
+        rvPhotos.adapter = adapter
+        rvPhotos.itemAnimator = DefaultItemAnimator()
+        rvPhotos.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
+                    GlideApp.with(this@PhotoGridActivity).pauseRequestsRecursive()
+                } else {
+                    GlideApp.with(this@PhotoGridActivity).resumeRequestsRecursive()
+                }
+            }
+        })
+        rvPhotos.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            val padding = applicationContext.resources.getDimensionPixelSize(R.dimen.itm_padding)
+
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                val position = parent.getChildLayoutPosition(view)
+
+                outRect.left = if (position % 2 == 0) padding else padding / 2
+                outRect.right = if (position % 2 == 1) padding else padding / 2
+                outRect.bottom = padding
+
+                if (position == 0 || position == 1) {
+                    outRect.top = padding
+                } else {
+                    outRect.top = 0
+                }
+            }
+        })
+    }
+
+    private fun showFTUE() {
+        val layoutManager = rvPhotos.layoutManager as GridLayoutManager
+        val firstItemPosition = layoutManager.findFirstVisibleItemPosition()
+        val view = layoutManager.findViewByPosition(firstItemPosition)
+
+        val animTime =
+                resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+        val colorAccent =
+                ContextCompat.getColor(applicationContext, R.color.colorAccent)
+
+        SpotlightView.Builder(this@PhotoGridActivity)
+                .introAnimationDuration(animTime)
+                .enableRevealAnimation(true)
+                .performClick(true)
+                .fadeinTextDuration(animTime)
+                .headingTvColor(colorAccent)
+                .headingTvSize(32)
+                .headingTvText(getString(R.string.ftue_title))
+                .subHeadingTvColor(Color.WHITE)
+                .subHeadingTvSize(16)
+                .subHeadingTvText(getString(R.string.ftue_text))
+                .maskColor(ContextCompat.getColor(applicationContext, R.color.bg_ftue))
+                .target(view)
+                .lineAnimDuration(animTime)
+                .lineAndArcColor(colorAccent)
+                .dismissOnTouch(true)
+                .dismissOnBackPress(true)
+                .enableDismissAfterShown(true)
+                .show()
+
     }
 }

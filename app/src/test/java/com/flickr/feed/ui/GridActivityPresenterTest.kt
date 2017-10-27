@@ -17,13 +17,15 @@ import org.mockito.Mock
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 
+
+
 /**
  * Created by andrew on 26/10/2017.
  */
 @RunWith(MockitoJUnitRunner::class)
 class GridActivityPresenterTest {
 
-    private val LOCAL_IMAGES = arrayListOf(FlickrImage(), FlickrImage(), FlickrImage())
+    private val images = arrayListOf(FlickrImage(), FlickrImage(), FlickrImage())
 
     lateinit var presenter: PhotoGridActivityPresenter
 
@@ -48,12 +50,21 @@ class GridActivityPresenterTest {
     }
 
     @Test
-    fun loadQuestions_ShouldShowMessage_WhenNoDataReturned() {
-        whenever(repository.getImages()).thenReturn(Single.just(LOCAL_IMAGES))
+    fun getImagesShouldDisplayImages() {
+        whenever(repository.getImages()).thenReturn(Single.just(images))
 
         presenter.getImages()
         testScheduler.triggerActions()
 
-        verify(view).displayImages(LOCAL_IMAGES)
+        verify(view).displayImages(images)
+    }
+
+    @Test
+    fun getImagesShouldShowError() {
+        whenever(repository.getImages()).thenReturn(Single.error<List<FlickrImage>>(Throwable("error")))
+        presenter.getImages()
+        testScheduler.triggerActions()
+
+        verify(view).displayError()
     }
 }
