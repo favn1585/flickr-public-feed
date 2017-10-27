@@ -5,7 +5,7 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.OnLifecycleEvent
 import com.flickr.feed.data.model.FlickrImage
-import com.flickr.feed.data.repository.FlickrImagesRepository
+import com.flickr.feed.data.repository.FlickrImagesRepositoryImpl
 import com.flickr.feed.utils.RunOn
 import com.flickr.feed.utils.SchedulerContext
 import io.reactivex.Scheduler
@@ -18,7 +18,7 @@ import javax.inject.Inject
  */
 class PhotoGridActivityPresenter
 @Inject constructor(private val view: PhotoGridContract.View,
-                    private val repository: FlickrImagesRepository,
+                    private val repository: FlickrImagesRepositoryImpl,
                     @RunOn(SchedulerContext.IO) private val ioScheduler: Scheduler,
                     @RunOn(SchedulerContext.UI) private val uiScheduler: Scheduler)
     : PhotoGridContract.Presenter, LifecycleObserver {

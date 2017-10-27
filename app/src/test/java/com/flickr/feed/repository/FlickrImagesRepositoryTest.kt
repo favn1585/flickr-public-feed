@@ -4,7 +4,7 @@ import com.flickr.feed.data.db.FlickrImagesDao
 import com.flickr.feed.data.model.FlickrImage
 import com.flickr.feed.data.repository.FlickrImagesLocalDataSource
 import com.flickr.feed.data.repository.FlickrImagesRemoteDataSource
-import com.flickr.feed.data.repository.FlickrImagesRepository
+import com.flickr.feed.data.repository.FlickrImagesRepositoryImpl
 import com.flickr.feed.di.DaggerTestNetworkComponent
 import com.flickr.feed.network.NetworkModule
 import com.flickr.feed.utils.ServerTestHelper
@@ -30,7 +30,7 @@ class FlickrImagesRepositoryTest {
 
     lateinit var localDataSource: FlickrImagesLocalDataSource
     lateinit var remoteDataSource: FlickrImagesRemoteDataSource
-    lateinit var repository: FlickrImagesRepository
+    lateinit var repository: FlickrImagesRepositoryImpl
 
     @Mock
     lateinit var dao: FlickrImagesDao
@@ -53,7 +53,7 @@ class FlickrImagesRepositoryTest {
         localDataSource = FlickrImagesLocalDataSource(dao)
         remoteDataSource = FlickrImagesRemoteDataSource(retrofit)
 
-        repository = FlickrImagesRepository(localDataSource, remoteDataSource)
+        repository = FlickrImagesRepositoryImpl(localDataSource, remoteDataSource)
 
         doNothing().`when`(dao).dropImages()
     }

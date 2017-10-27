@@ -13,5 +13,5 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(FlickrImagesRepositoryModule::class, AppModule::class,
         FlickrImagesDBModule::class, NetworkModule::class))
 interface FlickrImagesRepositoryComponent {
-    fun provideFlickrImagesRepository() : FlickrImagesRepository
+    fun provideFlickrImagesRepository() : FlickrImagesRepositoryImpl
 }
