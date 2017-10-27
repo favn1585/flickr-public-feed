@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
@@ -57,6 +58,9 @@ class PhotoGridActivity : AppCompatActivity(), PhotoGridContract.View {
     private val lifecycleRegistry = LifecycleRegistry(this)
     private val adapter = PhotoGridAdapter(this)
 
+    private val listStateKey = "list_state"
+    private var listState : Parcelable? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerPhotoGridComponent.builder()
                 .photoGridActivityPresenterModule(PhotoGridActivityPresenterModule(this))
@@ -77,6 +81,16 @@ class PhotoGridActivity : AppCompatActivity(), PhotoGridContract.View {
         moveTaskToBack(true)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(listStateKey, rvPhotos.layoutManager.onSaveInstanceState())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        listState = savedInstanceState.getParcelable(listStateKey)
+    }
+
     override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun displayImages(images: List<FlickrImage>) {
@@ -93,6 +107,8 @@ class PhotoGridActivity : AppCompatActivity(), PhotoGridContract.View {
             })
             sharedPrefs.storeIsGridTipShowed(true)
         }
+        
+        rvPhotos.layoutManager.onRestoreInstanceState(listState)
     }
 
     override fun displayError() {
