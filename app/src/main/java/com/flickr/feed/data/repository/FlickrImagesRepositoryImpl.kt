@@ -7,9 +7,9 @@ import javax.inject.Inject
 /**
  * Created by andrew on 27/10/2017.
  */
-open class FlickrImagesRepositoryImpl
+class FlickrImagesRepositoryImpl
 @Inject constructor(private val localDataSource: FlickrImagesLocalDataSource,
-                    private val remoteDataSource: FlickrImagesRemoteDataSource)
+                    private val remoteDataSource: FlickrImagesDataSource)
     : FlickrImagesRepository{
 
     override fun getImages(): Single<List<FlickrImage>> {

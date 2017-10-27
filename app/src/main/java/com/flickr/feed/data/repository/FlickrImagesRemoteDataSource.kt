@@ -10,7 +10,7 @@ import javax.inject.Inject
  * Created by andrew on 25/10/2017.
  */
 //TODO add computation sceduler
-open class FlickrImagesRemoteDataSource @Inject constructor(val retrofit: Retrofit) : FlickrImagesDataSource {
+class FlickrImagesRemoteDataSource @Inject constructor(val retrofit: Retrofit) : FlickrImagesDataSource {
 
 
     //TODO .observeOn(computationScheduler)

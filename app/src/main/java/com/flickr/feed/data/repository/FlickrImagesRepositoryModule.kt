@@ -12,8 +12,8 @@ class FlickrImagesRepositoryModule {
 
     @Provides
     @Singleton
-    fun provideLocalDataSource(dataSource: FlickrImagesLocalDataSource)
-            : FlickrImagesDataSource = dataSource
+    fun provideLocalDataSource(dataSource: FlickrImagesLocalDataSourceImpl)
+            : FlickrImagesLocalDataSource = dataSource
 
     @Provides
     @Singleton
