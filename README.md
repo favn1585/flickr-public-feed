@@ -1,4 +1,4 @@
 # flickr-public-feed
 Showcase application
 
-![alt text](https://raw.githubusercontent.com/favn1585/flickr-public-feed/master/preview.png | width=300)
+![alt text](https://raw.githubusercontent.com/favn1585/flickr-public-feed/master/preview.png)
